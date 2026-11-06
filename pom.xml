@@ -70,6 +70,11 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -110,6 +115,46 @@
                                     <artifactId>lombok</artifactId>
                                 </path>
                             </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>6.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/swagger.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>com.matteo.openapi.api</apiPackage>
+                            <modelPackage>com.matteo.openapi.model</modelPackage>
+                            <generateApis>true</generateApis>
+                            <generateApiTests>false</generateApiTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModels>true</generateModels>
+                            <generateModelTests>false</generateModelTests>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <configOptions>
+                                <!-- Use this options to have the code generated with jakarta package instead
+                                 of javax -->
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <!-- Use this option to group APIs generated under the respective tags defined in
+                                OpenApi
+                                 -->
+                                <useTags>true</useTags>
+                                <!-- Use this option to group prevent the generation of OpenApiGeneratorApplicationTests.java-->
+                                <interfaceOnly>true</interfaceOnly>
+                                <!-- Use this option to enable the validation in the generator -->
+                                <useBeanValidation>true</useBeanValidation>
+                            </configOptions>
+                            <!-- Use this to allow the generation even in case of warnings
+                            to better understand how to fix them-->
+                            <skipValidateSpec>true</skipValidateSpec>
                         </configuration>
                     </execution>
                 </executions>

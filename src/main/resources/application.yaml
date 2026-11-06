@@ -1,3 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
 spring:
   application:
     name: awesome-pizza-be
+  #Database configurations
+  datasource:
+    url: "jdbc:postgresql://${DATABASE_HOST}:5432/postgres"
+    username: "${DATABASE_USERNAME}"
+    password: "${DATABASE_PASSWORD}"
+  jpa:
+    hibernate:
+      ddl-auto: validate

@@ -1,0 +1,12 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  postgres:
+    container_name: postgres_awesome-pizza
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
