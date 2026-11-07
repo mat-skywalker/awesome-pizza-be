@@ -1,7 +1,10 @@
 package org.example.awesomepizzabe.services;
 
 import com.matteo.openapi.model.OrderResponse;
+import com.matteo.openapi.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
+import org.example.awesomepizzabe.mapper.OrderResponseMapper;
+import org.example.awesomepizzabe.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,10 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KitchenManagementService {
 
+    private final OrderRepository orderRepository;
+    private final OrderResponseMapper orderResponseMapper;
+
     public List<OrderResponse> getPendingOrders() {
-        // Implement the logic to retrieve pending orders
-        // This is a placeholder implementation
-        return List.of();
+        return orderResponseMapper.toOrderResponseList(orderRepository.findByStatusOrderByCreatedAtAsc(OrderStatus.PENDING));
     }
 
     public OrderResponse getTakeNextOrder() {
