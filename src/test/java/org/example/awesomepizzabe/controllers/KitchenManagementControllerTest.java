@@ -64,4 +64,17 @@ class KitchenManagementControllerTest {
         assertSame(order, response.getBody());
         verify(kitchenManagementService).getTakeNextOrder();
     }
+
+    @Test
+    void completeOrderReturnsOkResponseWithCompletedOrder() {
+        String orderCode = "AP-ABC234";
+        OrderResponse order = new OrderResponse().orderCode(orderCode);
+        when(kitchenManagementService.postCompleteOrder(orderCode)).thenReturn(order);
+
+        ResponseEntity<OrderResponse> response = controller.completeOrder(orderCode);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertSame(order, response.getBody());
+        verify(kitchenManagementService).postCompleteOrder(orderCode);
+    }
 }

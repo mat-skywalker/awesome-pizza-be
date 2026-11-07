@@ -2,7 +2,9 @@ package org.example.awesomepizzabe.services;
 
 import com.matteo.openapi.model.OrderResponse;
 import com.matteo.openapi.model.OrderStatus;
+import org.example.awesomepizzabe.error.exceptions.NoInPreparationOrderException;
 import org.example.awesomepizzabe.error.exceptions.NoPendingOrdersException;
+import org.example.awesomepizzabe.error.exceptions.RecordNotFoundException;
 import org.example.awesomepizzabe.mapper.OrderResponseMapper;
 import org.example.awesomepizzabe.repository.OrderRepository;
 import org.example.awesomepizzabe.repository.entities.Order;
@@ -97,6 +99,58 @@ class KitchenManagementServiceTest {
 
         assertEquals("No pending orders", exception.getMessage());
         verify(orderRepository).findFirstByStatusOrderByCreatedAtAscIdAsc(OrderStatus.PENDING);
+        verifyNoInteractions(orderResponseMapper);
+    }
+
+    @Test
+    void postCompleteOrderMarksInPreparationOrderCompletedAndMapsIt() {
+        String orderCode = "AP-ABC234";
+        Order order = new Order();
+        order.setStatus(OrderStatus.IN_PREPARATION);
+        OrderResponse expectedResponse = new OrderResponse()
+                .orderCode(orderCode)
+                .status(OrderStatus.COMPLETED);
+        when(orderRepository.findByOrderCode(orderCode)).thenReturn(Optional.of(order));
+        when(orderResponseMapper.toOrderResponse(order)).thenReturn(expectedResponse);
+
+        OrderResponse actualResponse = service.postCompleteOrder(orderCode);
+
+        verify(orderRepository).findByOrderCode(orderCode);
+        verify(orderRepository).save(order);
+        verify(orderResponseMapper).toOrderResponse(order);
+        assertEquals(OrderStatus.COMPLETED, order.getStatus());
+        assertSame(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void postCompleteOrderThrowsWhenOrderDoesNotExist() {
+        String orderCode = "AP-ABC234";
+        when(orderRepository.findByOrderCode(orderCode)).thenReturn(Optional.empty());
+
+        RecordNotFoundException exception = assertThrows(
+                RecordNotFoundException.class,
+                () -> service.postCompleteOrder(orderCode)
+        );
+
+        assertEquals("Order not found", exception.getMessage());
+        verify(orderRepository).findByOrderCode(orderCode);
+        verifyNoInteractions(orderResponseMapper);
+    }
+
+    @Test
+    void postCompleteOrderThrowsWhenOrderIsNotBeingPrepared() {
+        String orderCode = "AP-ABC234";
+        Order order = new Order();
+        order.setStatus(OrderStatus.PENDING);
+        when(orderRepository.findByOrderCode(orderCode)).thenReturn(Optional.of(order));
+
+        NoInPreparationOrderException exception = assertThrows(
+                NoInPreparationOrderException.class,
+                () -> service.postCompleteOrder(orderCode)
+        );
+
+        assertEquals("The order is not being prepared", exception.getMessage());
+        verify(orderRepository).findByOrderCode(orderCode);
         verifyNoInteractions(orderResponseMapper);
     }
 }
