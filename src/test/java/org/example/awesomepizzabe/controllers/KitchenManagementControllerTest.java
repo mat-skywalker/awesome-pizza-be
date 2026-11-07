@@ -52,4 +52,16 @@ class KitchenManagementControllerTest {
         assertSame(orders, response.getBody());
         verify(kitchenManagementService).getPendingOrders();
     }
+
+    @Test
+    void takeNextOrderReturnsOkResponseWithTakenOrder() {
+        OrderResponse order = new OrderResponse().orderCode("AP-ABC234");
+        when(kitchenManagementService.getTakeNextOrder()).thenReturn(order);
+
+        ResponseEntity<OrderResponse> response = controller.takeNextOrder();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertSame(order, response.getBody());
+        verify(kitchenManagementService).getTakeNextOrder();
+    }
 }

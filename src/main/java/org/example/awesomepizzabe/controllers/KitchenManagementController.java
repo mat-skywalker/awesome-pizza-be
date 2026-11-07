@@ -28,7 +28,7 @@ public class KitchenManagementController implements KitchenManagementApi {
     @PostMapping("/orders/next")
     public ResponseEntity<OrderResponse> takeNextOrder() {
         return new ResponseEntity<>(kitchenManagementService.getTakeNextOrder(),
-                HttpStatus.NOT_IMPLEMENTED);
+                HttpStatus.OK);
     }
 
     @Override
