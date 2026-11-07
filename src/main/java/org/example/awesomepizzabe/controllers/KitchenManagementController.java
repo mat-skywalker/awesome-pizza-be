@@ -21,7 +21,7 @@ public class KitchenManagementController implements KitchenManagementApi {
     @GetMapping("/orders/pending")
     public ResponseEntity<List<OrderResponse>> getPendingOrders() {
         return new ResponseEntity<>(kitchenManagementService.getPendingOrders(),
-                HttpStatus.NOT_IMPLEMENTED);
+                HttpStatus.OK);
     }
 
     @Override

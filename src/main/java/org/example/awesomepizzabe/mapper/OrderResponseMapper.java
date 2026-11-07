@@ -7,6 +7,8 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -15,5 +17,7 @@ import org.mapstruct.ReportingPolicy;
 public interface OrderResponseMapper {
 
     OrderResponse toOrderResponse(Order order);
+
+    List<OrderResponse> toOrderResponseList(List<Order> order);
 
 }
