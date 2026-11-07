@@ -34,8 +34,8 @@ public class KitchenManagementController implements KitchenManagementApi {
     @Override
     @PostMapping("/orders/{orderCode}/complete")
     public ResponseEntity<OrderResponse> completeOrder(@PathVariable String orderCode) {
-        return new ResponseEntity<>(kitchenManagementService.getCompleteOrder(orderCode),
-                HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(kitchenManagementService.postCompleteOrder(orderCode),
+                HttpStatus.OK);
     }
 
 }
