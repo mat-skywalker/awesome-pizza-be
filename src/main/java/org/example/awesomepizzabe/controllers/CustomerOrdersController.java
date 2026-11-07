@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.awesomepizzabe.services.CustomerOrdersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,9 +19,9 @@ public class CustomerOrdersController implements CustomerOrdersApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(CreateOrderRequest createOrderRequest) {
+    public ResponseEntity<OrderResponse> createOrder(@Validated CreateOrderRequest createOrderRequest) {
         return new ResponseEntity<>(customerOrdersService.createCustomerOrder(createOrderRequest),
-                HttpStatus.NOT_IMPLEMENTED);
+                HttpStatus.CREATED);
     }
 
     @Override
