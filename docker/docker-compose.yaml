@@ -3,10 +3,16 @@ version: '3.1'
 
 services:
   postgres:
-    container_name: postgres_awesome-pizza
+    container_name: postgres_awesome_pizza
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: awesome_pizza
     ports:
-      - 5432:5432
+      - 5433:5432
+    volumes:
+      - awesome_pizza_be_data:/var/lib/postgresql
+
+volumes:
+  awesome_pizza_be_data:
