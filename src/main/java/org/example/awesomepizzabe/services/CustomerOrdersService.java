@@ -36,6 +36,7 @@ public class CustomerOrdersService {
             OrderItem orderItem = new OrderItem();
             orderItem.setPizzaName(StringUtils.trim(itemRequest.getPizzaName()));
             orderItem.setQuantity(itemRequest.getQuantity());
+            orderItem.setNotes(StringUtils.trim(itemRequest.getNotes()));
             orderItem.setOrder(order);
             orderItems.add(orderItem);
         });
