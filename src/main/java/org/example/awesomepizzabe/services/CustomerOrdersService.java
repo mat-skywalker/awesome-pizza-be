@@ -5,6 +5,7 @@ import com.matteo.openapi.model.OrderResponse;
 import com.matteo.openapi.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.example.awesomepizzabe.error.exceptions.RecordNotFoundException;
 import org.example.awesomepizzabe.mapper.OrderResponseMapper;
 import org.example.awesomepizzabe.repository.OrderRepository;
 import org.example.awesomepizzabe.repository.entities.Order;
@@ -44,9 +45,12 @@ public class CustomerOrdersService {
     }
 
     public OrderResponse getCustomerOrder(String orderCode) {
-        // Implement the logic to retrieve a customer order by its code
-        // This is a placeholder implementation
-        return new OrderResponse();
+        Order order = orderRepository.findByOrderCode(orderCode)
+                .orElseThrow(() ->
+                        new RecordNotFoundException("Order not found")
+                );
+
+        return orderResponseMapper.toOrderResponse(order);
     }
 
 }
