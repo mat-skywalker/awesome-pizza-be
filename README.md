@@ -6,19 +6,19 @@ Link:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-## Descrizione
-Applicazione per gestire gli ordini di una pizzeria.
+## Description
+Application to manage a Pizzeria orders
 
-5 API -> 2 per gestire le azioni dell'utente e 3 per gestire le azioni del pizzaiolo.
+5 APIs -> 2 to manage user actions and 3 to manage chef actions.
 
-## Dettagli tecnici
+## Technical Details
 - Java 21
 - Spring Boot 4.1.2
 - Maven 3.10.0
 - Docker 24.0.6
 
-## Come avviare l'applicazione
-1. Caricare il docker-compose.yaml in "awesome-pizza-docker" o avviare il container se già creato
-2. Eseguire il comando: 'maven clean install' per generare il jar
-3. Avviare il jar con il comando: java -jar "target\awesome-pizza-be-0.0.1-SNAPSHOT.jar" --spring.profiles.active=local
-4. Accedere a Swagger per testare le API
+## How to Start the Application
+1. Load the docker-compose.yaml in "awesome-pizza-docker" or start the container if already created
+2. Execute the command: 'maven clean install' to generate the jar
+3. Start the jar with the command: java -jar "target\awesome-pizza-be-0.0.1-SNAPSHOT.jar" --spring.profiles.active=local
+4. Access Swagger to test the APIs
